@@ -16,18 +16,17 @@ for url in URLS:
     data = requests.get(url = url).text
     
     RSS = etree.fromstring(data)
-    item = RSS.findall('channel/item')
+    items = RSS.findall('channel/item')
 
-    for entry in item:
+    for entry in items[::-1]:   #reversed(items)
         # print("Found entry: {}".format(entry))
         print(entry.findtext('title'))
+        print(entry.findtext('pubDate'))
         print(entry.findtext('guid'))
 
         urldata = requests.get(url = entry.findtext('guid'))
 
         urldata.encoding = 'cp1251'
-
-        # Soup = BeautifulSoup(urldata.text, 'html.parser')
 
         article = BeautifulSoup(urldata.text, 'html.parser').find('article')
 
