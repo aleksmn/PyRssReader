@@ -49,7 +49,7 @@ for url in URLS:
             ParagraphContent += anchor.text
         
         common_words = Counter([word.strip('.,') for word in ParagraphContent.replace('\r\n',' ')
-                .split(' ') if word and not word in EXCEPTED_WORDS and len(word) > 2])
+                .split(' ') if word and not word in EXCEPTED_WORDS and len(word) > 2]) # or word.isdecimal()
 
         for i in common_words.most_common(n = 5):
             print(f'{i[0]}: {i[1]}', end='; ')
