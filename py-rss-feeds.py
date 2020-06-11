@@ -2,6 +2,7 @@ from xml.etree import ElementTree as etree
 from collections import Counter
 from bs4 import BeautifulSoup
 from datetime import datetime
+import time
 import requests
 
 def time_to_string(time_object):
@@ -14,7 +15,7 @@ URLS = [
 ]
 
 articles = []
-
+print('Подключаемся к источникам новостей...')
 try:
     for url in URLS:
         data = requests.get(url = url).text
@@ -33,14 +34,15 @@ try:
 
         
     # Сортируем заголовки по времени:
-    # newlist = sorted(list_to_be_sorted, key=lambda k: k['name']) 
-
     articles = sorted(articles, key=lambda k: k['time'], reverse=False)
 
     # Выводим время публикации и заголовки на экран
     print()
     for article in articles:
+        if 'novosti-partnerov' in article['url']:
+            continue
         print(f"[{time_to_string(article['time'])}] {article['title']}\n{article['url']}\n")
+        time.sleep(0.05)
 
 except requests.exceptions.ConnectionError as error:
     print('Нет соединения с интернетом.')
