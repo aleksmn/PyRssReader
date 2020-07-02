@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import time
 import requests
+import sys
 
 def time_to_string(time_object):
     return datetime.strftime(time_object, '%H:%M') # '%d.%m.%y %H:%M' --> 26.05.20 13:27
@@ -14,10 +15,22 @@ URLS = [
     'http://tass.ru/rss/v2.xml'
 ]
 
+if len(sys.argv) > 1:
+    num = sys.argv[1]
+else:
+    num = input(f'Введите количество источников (не более {len(URLS)}): ')
+
+try: 
+    num = int(num)
+except:
+    num = 1
+
 articles = []
-print('Подключаемся к источникам новостей...')
+
+print(f'Подключаемся к источникам новостей ({num} из {len(URLS)})...')
+
 try:
-    for url in URLS:
+    for url in URLS[:num]:
         data = requests.get(url = url).text
         print (f"Собираем данные с <{url}>...")
         RSS = etree.fromstring(data)
