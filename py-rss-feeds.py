@@ -27,7 +27,7 @@ except:
 
 articles = []
 
-print(f'Подключаемся к источникам новостей ({num} из {len(URLS)})...')
+print(f'\nПодключаемся к источникам новостей ({num} из {len(URLS)})...')
 
 try:
     for url in URLS[:num]:
@@ -50,11 +50,10 @@ try:
     articles = sorted(articles, key=lambda k: k['time'], reverse=False)
 
     # Выводим время публикации и заголовки на экран
-    print()
     for article in articles:
         if 'novosti-partnerov' in article['url']:
             continue
-        print(f"[{time_to_string(article['time'])}] {article['title']}\n{article['url']}\n")
+        print(f"\n[{time_to_string(article['time'])}] {article['title']}\n{article['url']}")
         time.sleep(0.05)
 
 except requests.exceptions.ConnectionError as error:
