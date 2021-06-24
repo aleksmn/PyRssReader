@@ -15,15 +15,17 @@ URLS = [
     'http://tass.ru/rss/v2.xml'
 ]
 
+
 if len(sys.argv) > 1:
     num = sys.argv[1]
 else:
-    num = input(f'Введите количество источников (не более {len(URLS)}): ')
+    #num = input(f'Введите количество источников (не более {len(URLS)}): ')
+    num = len(URLS)
 
 try: 
     num = int(num)
 except:
-    num = 1
+    num = len(URLS)
 
 articles = []
 
@@ -53,8 +55,17 @@ try:
     for article in articles:
         if 'novosti-partnerov' in article['url']:
             continue
-        print(f"\n[{time_to_string(article['time'])}] {article['title']}\n{article['url']}")
-        time.sleep(0.05)
+        time_output = time_to_string(article['time'])
+        title_output = article['title']
+        url_output = article['url']
+        
+        string_limit = 86
+        if len(title_output) > string_limit:
+                title_output = title_output[:string_limit-1] + '~'
+                      
+        print(f"[{time_output}] {title_output}\n{' ' * 8}{url_output}")
+
+        time.sleep(0.01)
 
 except requests.exceptions.ConnectionError as error:
     print('Нет соединения с интернетом.')
