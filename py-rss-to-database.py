@@ -11,9 +11,8 @@ def time_to_string(time_object):
 
 
 def sort_by_time(articles, reverse=False):
-    """
-    Sort articles by time, by default do not reverse: most recent at the bottom.
-    """
+    """Sort articles by time, by default do not reverse: 
+    most recent at the bottom."""
     return sorted(articles, key=lambda k: k['time'], reverse=reverse)
 
 
@@ -39,24 +38,30 @@ articles = []
 
 print(f'\nПодключаемся к источникам новостей ({num} из {len(URLS)})...')
 
+def get_items_from_url(url):
+    """Getting items from URL of RSS feed"""
+    data = requests.get(url = url).text
+    print (f"Собираем данные с <{url}>...")
+    RSS = etree.fromstring(data)
+    return RSS.findall('channel/item')
+
+def get_article(entry):
+    """Get article from the entry on RSS feed. Return article as dictionary with atributes time, date, url."""
+    article = {}
+    article['time'] = datetime.strptime(entry.findtext('pubDate'), '%a, %d %b %Y %H:%M:%S %z')
+            # Example of 'pubdate':  Tue, 26 May 2020 13:27:00 +0300 
+    article['title'] = entry.findtext('title')
+    article['url'] = entry.findtext('guid')
+    return article
+
 try:
     for url in URLS[:num]:
-        data = requests.get(url = url).text
-        print (f"Собираем данные с <{url}>...")
-        RSS = etree.fromstring(data)
-        items = RSS.findall('channel/item')
+        items = get_items_from_url(url)
 
         for entry in items:
-            article = {}
-            article['time'] = datetime.strptime(entry.findtext('pubDate'), '%a, %d %b %Y %H:%M:%S %z')
-            # Example of 'pubdate':  Tue, 26 May 2020 13:27:00 +0300 
-            article['title'] = entry.findtext('title')
-            article['url'] = entry.findtext('guid')
-
-            articles.append(article)
+            articles.append(get_article(entry))
 
         
-    # Сортируем заголовки по времени:
     articles = sort_by_time(articles)
 
     # Выводим время публикации и заголовки на экран
