@@ -63,7 +63,10 @@ try:
         if len(title_output) > string_limit:
                 title_output = title_output[:string_limit-1] + '~'
                       
-        print(f"[{time_output}] {title_output}\n{' ' * 8}{url_output}")
+        # print(f"[{time_output}] {title_output}\n{' ' * 8}{url_output}")
+
+        # Compact view:
+        print(f"[{time_output}] {title_output}")
 
         time.sleep(0.01)
 
