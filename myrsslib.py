@@ -5,7 +5,11 @@ from datetime import datetime
 import time
 import requests
 import sys
+import os
 import sqlite3
+
+def get_script_path():
+    return os.path.dirname(os.path.realpath(sys.argv[0]))
 
 def get_num_feeds(URLS):
     """Getting number of urls to scrap, max value is len of URLs list."""
@@ -74,7 +78,8 @@ def print_titles(articles):
 
 def add_to_db(articles):
     """Add article to the news.db"""
-    conn = sqlite3.connect('news.db')
+    path_to_db = get_script_path() + '/news.db'
+    conn = sqlite3.connect(path_to_db)
     c = conn.cursor()
     
     # find most recent title in db
@@ -96,8 +101,11 @@ def add_to_db(articles):
     
 
 if __name__ ==  "__main__":
+    path_to_db = get_script_path() + '/news.db'
+    print(path_to_db)
+
     # Create db
-    conn = sqlite3.connect('news.db')
+    conn = sqlite3.connect(path_to_db)
     c = conn.cursor()
     # c.execute("""CREATE TABLE titles (
 
@@ -111,8 +119,8 @@ if __name__ ==  "__main__":
     for i in c.fetchall():
         print(i[2], i[3])
 
-    # c.execute("SELECT * FROM titles ORDER BY time DESC LIMIT 1") 
-    # print(c.fetchone())
+    c.execute("SELECT * FROM titles ORDER BY time DESC LIMIT 1") 
+    print(c.fetchone())
 
     conn.commit()
     conn.close()
