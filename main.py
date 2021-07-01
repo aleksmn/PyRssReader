@@ -17,7 +17,7 @@ try:
     articles = sort_by_time(clear_from_spam(articles))
 
     # Выводим время публикации и заголовки на экран
-    # print_titles(articles)
+    print_titles(articles)
 
     # Добавляем заголовки в базу данных
     add_to_db(articles)
