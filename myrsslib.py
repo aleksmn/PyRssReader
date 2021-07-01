@@ -92,7 +92,9 @@ def add_to_db(articles):
     for a in articles:
         # add only new titles to db
         if str(a['time']) > most_recent_time:
-            c.execute(f"INSERT INTO titles VALUES ('{a['time']}', '{a['title']}', '{a['url']}', '{a['feedname']}')")
+            c.execute("INSERT INTO titles VALUES (?, ?, ?, ?)", 
+                        (a['time'], a['title'], a['url'], a['feedname']))
+
         else:
             continue
 
@@ -101,7 +103,7 @@ def add_to_db(articles):
     
 
 if __name__ ==  "__main__":
-    path_to_db = get_script_path() + '/news.db'
+    path_to_db = get_script_path() + '/' + 'news.db'
     print(path_to_db)
 
     # Create db
@@ -117,7 +119,7 @@ if __name__ ==  "__main__":
     
     c.execute("SELECT * FROM titles ORDER BY time")
     for i in c.fetchall():
-        print(i[2], i[3])
+        print(i[0], i[1])
 
     c.execute("SELECT * FROM titles ORDER BY time DESC LIMIT 1") 
     print(c.fetchone())
