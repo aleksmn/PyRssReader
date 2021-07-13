@@ -66,14 +66,14 @@ def print_titles(articles):
         time_output = time_to_string(article['time'])
         title_output = article['title']
         url_output = article['url']
-        
+        feedname = article['feedname']
         if len(title_output) > string_limit:
                 title_output = title_output[:string_limit-1] + '~'
                         
-        print(f"[{time_output}] {title_output}\n{' ' * 8}{url_output}")
+        # print(f"[{time_output}] {title_output}\n{' ' * 8}({feedname}) {url_output}")
 
         # Compact view:
-        # print(f"[{time_output}] {title_output}")
+        print(f"[{time_output}] {title_output}")
         time.sleep(sleep_time)    
 
 def add_to_db(articles):
