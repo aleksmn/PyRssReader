@@ -117,12 +117,12 @@ if __name__ ==  "__main__":
     #             feedname text
     #         )""")   
     
-    c.execute("SELECT * FROM titles ORDER BY time")
+    c.execute("SELECT * FROM titles WHERE feedname=='Meduza' ORDER BY time")
     for i in c.fetchall():
         print(i[0], i[1])
 
     c.execute("SELECT * FROM titles ORDER BY time DESC LIMIT 1") 
-    print(c.fetchone())
+    print('Last title: ', c.fetchone())
 
     conn.commit()
     conn.close()
