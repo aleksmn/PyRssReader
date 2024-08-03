@@ -2,8 +2,7 @@ from myrsslib import *
 
 FEEDS = [
     {'feedname': 'Interfax', 'url': 'https://www.interfax.ru/rss.asp'},
-    {'feedname': 'TASS', 'url': 'http://tass.ru/rss/v2.xml'},
-    {'feedname': 'Meduza', 'url': 'https://meduza.io/rss2/all'},
+    # {'feedname': 'TASS', 'url': 'http://tass.ru/rss/v2.xml'}
 ]
 
 num_feeds = get_num_feeds(FEEDS)
@@ -21,7 +20,7 @@ try:
     print_titles(articles)
 
     # Добавляем заголовки в базу данных
-    add_to_db(articles)
+    # add_to_db(articles)
 
 except requests.exceptions.ConnectionError as error:
     print('Нет соединения с интернетом.')
