@@ -33,7 +33,7 @@ def time_to_string(time_object):
 def sort_by_time(articles, reverse=False):
     """Sort articles by time, by default do not reverse: 
     most recent at the bottom."""
-    return sorted(articles, key=lambda k: k['time'], reverse=True)
+    return sorted(articles, key=lambda k: k['time'], reverse=False)
 
 def get_items_from_feed(feed):
     """Getting items from URL of RSS feed"""
